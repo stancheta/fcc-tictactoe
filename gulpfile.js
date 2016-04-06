@@ -62,6 +62,12 @@ gulp.task('vendorcss', function() {
     .on('error', gutil.log);
 });
 
+gulp.task('vendorfont', function() {
+  return gulp.src('bower_components/bootstrap-css/fonts/*')
+    .pipe(newer('build/assests/fonts/*'))
+    .pipe(gulp.dest('build/assets/fonts/'));
+});
+
 // concatinates minified vendor js files and places them in build folder
 gulp.task('vendorjs', function() {
   return gulp.src(config.paths.vendorjs)
@@ -107,6 +113,7 @@ gulp.task('img-watch', function() {
 gulp.task('serve', function() {
   // Serve files from the root of this project
   browserSync.init({
+    notify: false,
     server: {
       baseDir: "build"
     }
@@ -118,7 +125,7 @@ gulp.task('serve', function() {
   gulp.watch('src/assets/img/*', ['img-watch']);
 });
 
-gulp.task('vendors', ['vendorjs', 'vendorcss']);
+gulp.task('vendors', ['vendorjs', 'vendorcss', 'vendorfont']);
 gulp.task('build', function() {
   return runSequence('clean',
     ['vendors', 'css', 'js', 'index', 'favicon', 'img'],
