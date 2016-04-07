@@ -9,11 +9,16 @@
     "vendorcss": [
       "bower_components/normalize-css/normalize.css",
       "bower_components/bootstrap-css/css/bootstrap.css",
-      "bower_components/bootstrap-css/css/bootstrap-theme.css"
+      "bower_components/bootstrap-css/css/bootstrap-theme.css",
+      "bower_components/font-awesome/css/font-awesome.css"
     ],
     "vendorjs": [
       "bower_components/jquery/dist/jquery.min.js",
       "bower_components/bootstrap-css/js/bootstrap.min.js"
+    ],
+    "vendorfonts": [
+      "bower_components/bootstrap-css/fonts/*",
+      "bower_components/font-awesome/fonts/*"
     ]
   }
 }

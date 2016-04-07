@@ -9,7 +9,7 @@ You can install this through the [Node.js](https://nodejs.org/) website. After
 acquiring Node, you need to install Gulp and Bower with the following command:
 
 ```
-node install -g gulp bower
+npm install -g gulp bower
 ```
 
 the -g flag ensures that the command will install Gulp and Bower globally.

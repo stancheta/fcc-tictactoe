@@ -1,7 +1,7 @@
 {
-  "name":"Boilerplate-Gulp-Bootstrap",
-  "version":"0.1.0",
-  "homepage":"https://github.com/stancheta/Boilerplate-Gulp-Bootstrap",
+  "name": "Boilerplate-Gulp-Bootstrap",
+  "version": "0.1.0",
+  "homepage": "https://github.com/stancheta/Boilerplate-Gulp-Bootstrap",
   "authors": [
     "Steven T Ancheta <steventancheta@gmail.com>"
   ],
@@ -17,6 +17,7 @@
   "dependencies": {
     "jquery": "latest",
     "bootstrap-css": "latest",
-    "normalize-css": "latest"
+    "normalize-css": "latest",
+    "font-awesome": "fontawesome#^4.5.0"
   }
 }

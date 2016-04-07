@@ -63,7 +63,7 @@ gulp.task('vendorcss', function() {
 });
 
 gulp.task('vendorfont', function() {
-  return gulp.src('bower_components/bootstrap-css/fonts/*')
+  return gulp.src(config.paths.vendorfonts)
     .pipe(newer('build/assests/fonts/*'))
     .pipe(gulp.dest('build/assets/fonts/'));
 });
