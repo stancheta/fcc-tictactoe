@@ -10,6 +10,15 @@ var inject = require('gulp-inject');
 var newer = require('gulp-newer');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
+
+// options for browserSync
+var browserSyncConfig = {
+  notify: false,
+  server: {
+    baseDir: "build"
+  }
+};
+
 var reload = function() {
   browserSync.reload();
 };
@@ -62,9 +71,10 @@ gulp.task('vendorcss', function() {
     .on('error', gutil.log);
 });
 
+// moves vendor fonts into build folder
 gulp.task('vendorfont', function() {
   return gulp.src(config.paths.vendorfonts)
-    .pipe(newer('build/assests/fonts/*'))
+    .pipe(newer('build/assets/fonts/*'))
     .pipe(gulp.dest('build/assets/fonts/'));
 });
 
@@ -84,6 +94,12 @@ gulp.task('css', function() {
     .pipe(csso())
     .pipe(gulp.dest('build/assets/css/'))
     .on('error', gutil.log);
+});
+
+gulp.task('font', function() {
+  return gulp.src('src/assets/fonts/*')
+    .pipe(newer('build/assets/fonts/*'))
+    .pipe(gulp.dest('build/assets/fonts/'));
 });
 
 // concatinates and minifies source js files and places them in build folder
@@ -109,25 +125,26 @@ gulp.task('img-watch', function() {
   runSequence('img', reload);
 });
 
+gulp.task('font-watch', function() {
+  runSequence('font', reload);
+});
+
 // serves build folder
 gulp.task('serve', function() {
   // Serve files from the root of this project
-  browserSync.init({
-    server: {
-      baseDir: "build"
-    }
-  });
+  browserSync.init(browserSyncConfig);
 
   gulp.watch('src/*.html', ['html-watch']);
   gulp.watch('src/assets/js/*.js', ['js-watch']);
   gulp.watch('src/assets/css/*.css', ['css-watch']);
   gulp.watch('src/assets/img/*', ['img-watch']);
+  gulp.watch('src/assets/font/*', ['font-watch']);
 });
 
-gulp.task('vendors', ['vendorjs', 'vendorcss']);
+gulp.task('vendors', ['vendorjs', 'vendorcss', 'vendorfont']);
 gulp.task('build', function() {
   return runSequence('clean',
-    ['vendors', 'css', 'js', 'index', 'favicon', 'img'],
+    ['vendors', 'css', 'js', 'index', 'favicon', 'img', 'font'],
     'inject-assets');
 });
 
