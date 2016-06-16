@@ -68,12 +68,12 @@ Controller.prototype._checkBoardState = function() {
 // handles win event
 Controller.prototype._handleWin = function() {
   var that = this;
-  this.view.pauseBoard(2500);
+  this.view.pauseBoard(2000);
   var notifyTimer = setInterval(function() {
     that.view.toggleWin(that.model.winningArr, that.winner);
-  }, 500);
+  }, 400);
   setTimeout(function() {
     clearInterval(notifyTimer);
     that._clearGame();
-  }, 2500);
+  }, 2000);
 };
