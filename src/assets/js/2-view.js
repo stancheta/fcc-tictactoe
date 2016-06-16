@@ -1,4 +1,4 @@
-/* globals $on, $id, $class, document */
+/* globals $on, $id, $class, $addClass, $removeClass, document */
 
 /**
  * View Object
@@ -8,6 +8,7 @@ function View() {
   this.$boxes = $class(document, 'box');
 
   this.boardClickable = true;
+  this.showWin = false;
 }
 
 // clears the board
@@ -16,18 +17,16 @@ View.prototype.clearBoard = function() {
     this.$boxes[i].className = 'box';
     this._removeAllChildren(this.$boxes[i]);
   }
+  this.showWin = false;
 };
 
 // draws marks and colors on the board
 View.prototype.draw = function(target, color, type) {
+  var markDict = {x: 'times', o: 'circle-o'};
   var box = target;
-  box.classList.add('box-' + color);
-  box.classList.add('box-' + type);
-  if (type === 'x') {
-    box.appendChild(this._drawMark('times'));
-  } else {
-    box.appendChild(this._drawMark('circle-o'));
-  }
+  $addClass(box, 'box-' + color);
+  $addClass(box, 'box-' + type);
+  box.appendChild(this._drawMark(markDict[type]));
 };
 
 // Pauses the board's click events for the amount of time entered
@@ -52,11 +51,26 @@ View.prototype.setBoard = function(type, callback) {
   });
 };
 
+// toggles winning color
+View.prototype.toggleWin = function(arr, winner) {
+  for (var i = 0; i < arr.length; i++) {
+    var currid = $id(document, arr[i]);
+    if (this.showWin === false) {
+      $removeClass(currid, winner);
+      $addClass(currid, 'box-winner');
+    } else {
+      $removeClass(currid, 'box-winner');
+      $addClass(currid, winner);
+    }
+  }
+  this.showWin = !this.showWin;
+};
+
 // helper function to draw marks on the board
 View.prototype._drawMark = function(type) {
   var newMark = document.createElement('i');
-  newMark.classList.add('fa');
-  newMark.classList.add('fa-' + type);
+  $addClass(newMark, 'fa');
+  $addClass(newMark, 'fa-' + type);
   return newMark;
 };
 

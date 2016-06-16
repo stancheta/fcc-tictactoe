@@ -17,3 +17,13 @@ function $id(target, id) {
 function $qs(target, selectors) {
   return target.querySelector(selectors);
 }
+
+// helper function to add classes
+function $addClass(target, className) {
+  target.classList.add(className);
+}
+
+// helper function to remove classes
+function $removeClass(target, className) {
+  target.classList.remove(className);
+}

@@ -13,9 +13,36 @@ function Model() {
     'middle-bottom': 0,
     'right-bottom': 0
   };
+
+  this.check = [['left-top', 'middle-top', 'right-top'],
+                ['left-center', 'middle-center', 'right-center'],
+                ['left-bottom', 'middle-bottom', 'right-bottom'],
+                ['left-top', 'left-center', 'left-bottom'],
+                ['middle-top', 'middle-center', 'middle-bottom'],
+                ['right-top', 'right-center', 'right-bottom'],
+                ['left-top', 'middle-center', 'right-bottom'],
+                ['right-top', 'middle-center', 'left-bottom']];
+
   this.remainingSpaces = 9;
   this.win = false;
+  this.winner = '';
+  this.winningArr = [];
 }
+
+// resets the model
+Model.prototype.clearModel = function() {
+  for (var key in this.board) {
+    this.board[key] = 0;
+  }
+  this.remainingSpaces = 9;
+  this.win = false;
+  this.winner = '';
+  this.winningArr = [];
+};
+
+Model.prototype.enterPlayerMove = function(move, last) {
+  this._updateBoard(move, last);
+};
 
 // deals with the first move of every game (special case)
 Model.prototype.firstMove = function() {
@@ -26,18 +53,8 @@ Model.prototype.firstMove = function() {
   return move;
 };
 
-// resets the model
-Model.prototype.clearModel = function() {
-  for (var key in this.board) {
-    this.board[key] = 0;
-  }
-  this.remainingSpaces = 9;
-  this.win = false;
-};
-
 // deals with moves after the player has moved
-Model.prototype.nextMove = function(move, last) {
-  this._updateBoard(move, last);
+Model.prototype.nextOpponentMove = function() {
   var nextMove = this._getNextMove();
   this._updateBoard(nextMove, 'opponent');
   return nextMove;
@@ -51,23 +68,50 @@ Model.prototype._checkNearWin = function() {
 // checks to see if either player has won
 Model.prototype._checkWin = function() {
   var board = this.board;
+  var check = this.check;
+  var playerScore = 0;
+  var opponentScore = 0;
+
+  for (var i = 0; i < check.length; i++) {
+    playerScore = 0;
+    opponentScore = 0;
+    for (var j = 0; j < check[i].length; j++) {
+      if (board[check[i][j]] === 'player') {
+        playerScore++;
+      } else if (board[check[i][j]] === 'opponent') {
+        opponentScore++;
+      }
+      if (opponentScore === 3) {
+        this.win = true;
+        this.winningArr = check[i];
+        // this.winningArr.push('opponent');
+        this.winner = 'opponent';
+        return true;
+      }
+      // copy ^ for playerScore
+    }
+  }
   return false;
 };
 
 // checks the board for the opponent's next move
 Model.prototype._getNextMove = function() {
+  var moves = this._getMoves();
+  return moves[0];
+};
+
+Model.prototype._getMoves = function() {
   var board = this.board;
   var max = -1;
-  var move = [];
+  var moves = [];
   for (var key in board) {
     if (board[key] !== 'player' && board[key] !== 'opponent' &&
       board[key] >= max) {
       max = board[key];
-      move.push(key);
+      moves.push(key);
     }
   }
-  console.log(move);
-  return (move[0]);
+  return moves;
 };
 
 // updates the state of the board
@@ -78,7 +122,7 @@ Model.prototype._updateBoard = function(move, player) {
     this.board[move] = 'opponent';
   }
   this.remainingSpaces -= 1;
-  if (this._checkWin() === true) {
+  if (this.remainingSpaces < 5 && this._checkWin() === true) {
     this.win = true;
   }
 };

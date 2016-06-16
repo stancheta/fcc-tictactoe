@@ -10,24 +10,6 @@ function Controller(model, view) {
   this.view = view;
 }
 
-// clears the model and the board
-Controller.prototype._clearGame = function() {
-  var that = this;
-  this.model.clearModel();
-  this.view.pauseBoard(1500);
-  setTimeout(function() {
-    that.view.clearBoard();
-  }, 1000);
-  setTimeout(function() {
-    that.nextMove(null);
-  }, 1500);
-};
-
-// handles win event
-Controller.prototype._handleWin = function() {
-
-};
-
 // Controls what happens after player move has ended
 Controller.prototype.nextMove = function(prevMove) {
   var that = this;
@@ -35,14 +17,13 @@ Controller.prototype.nextMove = function(prevMove) {
   if (prevMove === null) { // first move
     move = that.model.firstMove();
   } else { // not first move
-    move = that.model.nextMove(prevMove, 'player');
+    that.model.enterPlayerMove(prevMove, 'player');
+    // this._checkBoardState(); for checking player
+    move = that.model.nextOpponentMove();
   }
-  that.view.draw($id(document, move), 'opponent', that.model.opponent);
-  if (this.model.win === true) {
-    this._handleWin();
-  } else if (this.model.remainingSpaces === 0) {
-    console.log('full');
-    this._clearGame();
+  this.view.draw($id(document, move), 'opponent', that.model.opponent);
+  if (this.model.remainingSpaces < 5) {
+    this._checkBoardState();
   }
 };
 
@@ -60,4 +41,39 @@ Controller.prototype.setPlayer = function(opt) {
   that.view.setBoard(that.model.player, function(d) {
     that.nextMove(d);
   });
+};
+
+// clears the model and the board
+Controller.prototype._clearGame = function() {
+  var that = this;
+  this.model.clearModel();
+  this.view.pauseBoard(1500);
+  setTimeout(function() {
+    that.view.clearBoard();
+  }, 1000);
+  setTimeout(function() {
+    that.nextMove(null);
+  }, 1500);
+};
+
+// checks if board is full or if a player has won
+Controller.prototype._checkBoardState = function() {
+  if (this.model.win === true) {
+    this._handleWin();
+  } else if (this.model.remainingSpaces === 0) {
+    this._clearGame();
+  }
+};
+
+// handles win event
+Controller.prototype._handleWin = function() {
+  var that = this;
+  this.view.pauseBoard(2500);
+  var notifyTimer = setInterval(function() {
+    that.view.toggleWin(that.model.winningArr, that.winner);
+  }, 500);
+  setTimeout(function() {
+    clearInterval(notifyTimer);
+    that._clearGame();
+  }, 2500);
 };

@@ -33,6 +33,10 @@ i {
   background: #FF6961;
 }
 
+.box-winner {
+  background: #7d7;
+}
+
 .box-hover {
   background: #CCC;
 }
