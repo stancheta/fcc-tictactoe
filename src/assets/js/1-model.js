@@ -14,12 +14,12 @@ function Model() {
     'right-bottom': 0
   };
 
-  this.check = [['left-top', 'middle-top', 'right-top'],
-                ['left-center', 'middle-center', 'right-center'],
+  this.check = [['left-top', 'left-center', 'left-bottom'],
+                ['left-top', 'middle-top', 'right-top'],
                 ['left-bottom', 'middle-bottom', 'right-bottom'],
-                ['left-top', 'left-center', 'left-bottom'],
-                ['middle-top', 'middle-center', 'middle-bottom'],
                 ['right-top', 'right-center', 'right-bottom'],
+                ['left-center', 'middle-center', 'right-center'],
+                ['middle-top', 'middle-center', 'middle-bottom'],
                 ['left-top', 'middle-center', 'right-bottom'],
                 ['right-top', 'middle-center', 'left-bottom']];
 
@@ -42,13 +42,16 @@ Model.prototype.clearModel = function() {
 
 Model.prototype.enterPlayerMove = function(move, last) {
   this._updateBoard(move, last);
+  this._reactToMove(move);
 };
 
 // deals with the first move of every game (special case)
 Model.prototype.firstMove = function() {
   var firstMoves = ['middle-center', 'left-top', 'right-top',
                     'left-bottom', 'right-bottom'];
-  var move = firstMoves[Math.floor((Math.random() * 5))];
+  this._addWeight(firstMoves, 10);
+  // var move = firstMoves[Math.floor((Math.random() * firstMoves.length))];
+  var move = this._getNextMove();
   this._updateBoard(move);
   return move;
 };
@@ -64,7 +67,11 @@ Model.prototype.nextOpponentMove = function() {
 Model.prototype._addWeight = function(arr, weight) {
   for (var i = 0; i < arr.length; i++) {
     if (this.board[arr[i]] !== 'player' && this.board[arr[i]] !== 'opponent') {
-      this.board[arr[i]] = weight;
+      if (weight === 0) {
+        this.board[arr[i]] = 0;
+      } else {
+        this.board[arr[i]] = weight + parseInt(this.board[arr[i]], 10);
+      }
     }
   }
 };
@@ -88,9 +95,11 @@ Model.prototype._checkNearWin = function() {
       } else {
         openTile++;
       }
-      if ((playerScore === 2 && openTile === 1) ||
-          (opponentScore === 2 && openTile === 1)) {
-        this._addWeight(check[i], 1000);
+      if (playerScore === 2 && openTile === 1) {
+        this._addWeight(check[i], 25);
+      }
+      if (opponentScore === 2 && openTile === 1) {
+        this._addWeight(check[i], 50);
       }
     }
   }
@@ -130,8 +139,7 @@ Model.prototype._getNextMove = function() {
     this._checkNearWin();
   }
   var moves = this._getMoves();
-  console.log('opponent next move: ' + moves[0]);
-  return moves[0];
+  return moves[Math.floor((Math.random() * moves.length))];
 };
 
 Model.prototype._getMoves = function() {
@@ -149,8 +157,17 @@ Model.prototype._getMoves = function() {
       }
     }
   }
-  console.log("highest: " + max);
+  // console.log("highest: " + max);
   return moves;
+};
+
+// reacts to player move
+Model.prototype._reactToMove = function(playerMove) {
+  var edgeMoves = ['left-center', 'middle-top',
+      'middle-bottom', 'right-center'];
+  if (edgeMoves.indexOf(playerMove) > -1) {
+    this._addWeight(this.check[edgeMoves.indexOf(playerMove)], 0);
+  }
 };
 
 // updates the state of the board
