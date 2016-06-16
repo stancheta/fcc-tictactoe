@@ -1,0 +1,6 @@
+/**
+ * Model Object
+ */
+function Model() {
+
+}

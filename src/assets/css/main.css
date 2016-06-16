@@ -1,3 +1,7 @@
+body {
+  height: 100%;
+}
+
 i {
   vertical-align: middle;
 }
@@ -11,7 +15,7 @@ i {
   position: relative;
 }
 
-.box-cir {
+.box-o {
   font-size: 9em;
   line-height: 1.5;
 }
@@ -41,6 +45,10 @@ i {
 
 .col-xs-4 {
   padding: 0.4vh 0.4vh;
+}
+
+.modal {
+  margin-top: 25%;
 }
 
 @media only screen and (max-width: 700px) {

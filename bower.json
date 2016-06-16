@@ -15,7 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "latest",
+    "jquery": "1.9.1",
     "bootstrap-css": "latest",
     "normalize-css": "latest",
     "font-awesome": "fontawesome#^4.5.0"

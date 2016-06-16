@@ -1,45 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title></title>
-		<meta charset="utf-8">
-		<meta name="description" content="">
-		<meta name="viewport" content="width-device-width, initial-scale=1">
-		<link rel="icon" type="image/x-icon" href="./favicon.ico">
-		<!-- vendor:css -->
-		<!-- endinject -->
-		<!-- main:css -->
-		<!-- endinject -->
-	</head>
-	<body>
-		<div class="container">
-			 <div class="row">
-			 	<div class="col-xs-4">
-					<div id="left-top" class="box box-x box-player"><i class="fa fa-times"></i>
+
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta name="viewport" content="width-device-width, initial-scale=1">
+	<link rel="icon" type="image/x-icon" href="./favicon.ico">
+	<!-- vendor:css -->
+	<!-- endinject -->
+	<!-- main:css -->
+	<!-- endinject -->
+</head>
+
+<body>
+	<div class="container">
+		<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>Choose X or O</p>
+						<div class="row">
+							<div class="col-xs-6">
+								<button id="btn-x" class="btn btn-default">X</button>
+							</div>
+							<div class="col-xs-6"></div>
+							<button id="btn-o" class="btn btn-default">O</button>
+						</div>
 					</div>
 				</div>
-			 	<div id="middle-top" class="col-xs-4"><div class="box box-cir box-opponent">
-			 		<i class="fa fa-circle-o" aria-hidden="true"></i>
-			 	</div>
-
-
-				</div>
-			 	<div id="right-top" class="col-xs-4"><div class="box"></div></div>
-			 </div>
-			 <div class="row">
-			 	<div id="left-center" class="col-xs-4"><div class="box"></div></div>
-			 	<div id="middle-center" class="col-xs-4"><div class="box"></div></div>
-			 	<div id="right-center" class="col-xs-4"><div class="box"></div></div>
-			 </div>
-			 <div class="row">
-			 	<div id="left-bottom" class="col-xs-4"><div class="box"></div></div>
-			 	<div id="middle-bottom" class="col-xs-4"><div class="box"></div></div>
-			 	<div id="right-bottom" class="col-xs-4"><div class="box"></div></div>
-			 </div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dialog -->
 		</div>
-	</body>
-		<!-- vendor:js -->
-		<!-- endinject -->
-		<!-- main:js -->
-		<!-- endinject -->
+		<!-- /.modal -->
+		<h1>Tic-Tac-Toe</h1>
+		<div id="board">
+			<div class="row">
+				<div class="col-xs-4">
+					<div id="left-top" class="box">
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div id="middle-top" class="box">
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div id="right-top" class="box"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<div id="left-center" class="box"></div>
+				</div>
+				<div class="col-xs-4">
+					<div id="middle-center" class="box"></div>
+				</div>
+				<div class="col-xs-4">
+					<div id="right-center" class="box"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					<div id="left-bottom" class="box"></div>
+				</div>
+				<div class="col-xs-4">
+					<div id="middle-bottom" class="box"></div>
+				</div>
+				<div class="col-xs-4">
+					<div id="right-bottom" class="box"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<!-- vendor:js -->
+<!-- endinject -->
+<!-- main:js -->
+<!-- endinject -->
+
 </html>
