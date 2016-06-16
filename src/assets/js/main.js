@@ -22,15 +22,18 @@ function setup() {
   });
   $myModal.modal('show');
 
-  $on($id(document, 'btn-x'), 'click', function() {
-    ticTacToe.controller.setPlayer('x');
+  var modalCallback = function(choice) {
+    ticTacToe.controller.setPlayer(choice);
     $myModal.modal('hide');
+    ticTacToe.controller.nextMove(null);
+  };
+
+  $on($id(document, 'btn-x'), 'click', function() {
+    modalCallback('x');
   });
   $on($id(document, 'btn-o'), 'click', function() {
-    ticTacToe.controller.setPlayer('o');
-    $myModal.modal('hide');
+    modalCallback('y');
   });
-  ticTacToe.controller.nextMove();
 }
 
 $on(document, 'DOMContentLoaded', setup);
